@@ -15,16 +15,28 @@ class Game {
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
   }
-
+  
   registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-      DOM-элемент текущего символа находится в свойстве this.currentSymbol.
-     */
+
+    let currentPosition = 0;
+    
+    document.addEventListener('keyup', event => {
+      const symbolCurrent = Array.from(this.wordElement.querySelectorAll('span'));
+      const pressedKey = event.key.toUpperCase();
+
+      if (pressedKey === symbolCurrent[currentPosition].textContent.toUpperCase()) {
+
+        this.success();
+        if (currentPosition === symbolCurrent.length - 1) {
+          currentPosition = 0;
+        } else {
+          currentPosition++;
+        }
+      } else {
+        this.fail();
+        currentPosition = 0;
+      }
+    });
   }
 
   success() {
@@ -91,4 +103,3 @@ class Game {
 }
 
 new Game(document.getElementById('game'))
-
